@@ -5,7 +5,7 @@ import (
 	"log"
 
 	firebase "firebase.google.com/go"
-
+	"github.com/gorilla/mux"
 	"google.golang.org/api/option"
 )
 
@@ -22,9 +22,25 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	item := getItem()
+	result, err := client.Collection("base").Doc("").Set(context.Background(), item)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	router := mux.NewRouter()
+
+	fetchItem := fetchItems()
+	router.HandleFunc("/", fetchItem).Methods("GET")
+
 	defer client.Close()
 }
 
 func getItem() *Item {
+
+}
+
+func fetchItems() {
 
 }
